@@ -1,0 +1,82 @@
+#!/usr/bin/env perl
+#
+# my dotfiles!  (exciting stuff man)
+#
+# main install
+# currently installs prezto
+#
+# I use system all over the place, trying to avoid many (hopfully all)
+# perl module dependencies.
+#
+
+use strict;
+use warnings;
+use Data::Dumper;
+use File::Basename;
+use feature "switch";
+use File::Path qw(remove_tree);
+
+main();
+
+sub main
+{
+    print Dumper( getConfig() );
+    runInstall( getConfig() );
+}
+
+# load our configuration
+#
+# C is a copy (automatically recursively copy directories)
+# @ is symlink
+sub getConfig
+{
+    my $HOME    = $ENV{HOME};
+    my $BASEDIR = dirname(__FILE__);
+
+    my $ret_struct = {
+        "general" => { 'basedir' => "$HOME/Development/dotfiles" },
+        "rules"   => [
+
+            # get zprezto into place
+            { action => 'copy',    file => "$BASEDIR/prezto",                  target => "$HOME/.zprezto" },
+            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zshrc",     target => "$HOME/.zshrc" },
+            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zlogin",    target => "$HOME/.zlogin" },
+            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zpreztorc", target => "$HOME/.zpreztorc" },
+            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zprofile",  target => "$HOME/.zprofile" },
+            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zshenv",    target => "$HOME/.zshenv" },
+            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zlogout",   target => "$HOME/.zlogout" },
+        ]
+    };
+
+    return $ret_struct;
+}
+
+# Runs through the ruleset
+sub runInstall
+{
+    my ($config) = @_;
+
+    foreach my $rule ( @{ $config->{rules} } )
+    {
+
+        # If the target exists and is a plain file
+        if ( -l $rule->{target} or -f $rule->{target} )
+        {
+            unlink( $rule->{target} );
+        }
+        elsif ( -d $rule->{target} )    # if the target exists and is a directory
+        {
+            # try to protect folks from doing something dumb
+            die "NOT DELETING YOUR HOME DIRECTORY" if ( $rule->{target} eq $ENV{'HOME'} );
+
+            remove_tree( $rule->{target} );
+            
+        }
+
+        given ( $rule->{action} )
+        {
+            when ("copy")    { system "cp -r " . $rule->{file} . " " . $rule->{target} . "\n" }
+            when ("symlink") { system "ln -s " . $rule->{file} . " " . $rule->{target} . "\n" }
+        }
+    }
+}
