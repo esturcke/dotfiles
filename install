@@ -34,11 +34,11 @@ sub getConfig
     my $BASEDIR = dirname(__FILE__);
 
     my $ret_struct = {
-        "general" => { 'basedir' => "$HOME/Development/dotfiles" },
         "rules"   => [
 
             # get zprezto into place
-            { action => 'copy',    file => "$BASEDIR/prezto",                  target => "$HOME/.zprezto" },
+            { action => 'copy',    file => "$BASEDIR",                         target => "$HOME/.dotfiles" },
+            { action => 'symlink', file => "$HOME/.dotfiles/prezto",           target => "$HOME/.zprezto" },
             { action => 'symlink', file => "$HOME/.zprezto/runcoms/zshrc",     target => "$HOME/.zshrc" },
             { action => 'symlink', file => "$HOME/.zprezto/runcoms/zlogin",    target => "$HOME/.zlogin" },
             { action => 'symlink', file => "$HOME/.zprezto/runcoms/zpreztorc", target => "$HOME/.zpreztorc" },
@@ -70,7 +70,7 @@ sub runInstall
             die "NOT DELETING YOUR HOME DIRECTORY" if ( $rule->{target} eq $ENV{'HOME'} );
 
             remove_tree( $rule->{target} );
-            
+
         }
 
         given ( $rule->{action} )
