@@ -1,6 +1,9 @@
 My dotfiles project.  
-Seems to be the hot thing to do these days.  
-I think I want this to copy the files out of the repo into place, rather than symlinking.  I think this gets interesting when you start having multiple branches (say work and home) install work changes your shell context to work, install home changes your shell context to home.  Maybe interesting, may be useless.  Who knows.
+Seems to be the hot thing to do these days.  Perl based.  Trying to limit only module dependency to YAML, we'll see though.
+Download the package, run the install script
+Maybe interesting, may be useless.  Who knows.
+
+**Warning:** This wil currently blow away any file that is in the way.  (currently zsh  dot-files and a .zprezto directory)
 
 See [issues](https://github.com/skarfacegc/dotfiles/issues) and [milestones](https://github.com/skarfacegc/dotfiles/issues/milestones) for current worklist  
 (going to track everything with ~~bugs~~ I mean _issues_)
