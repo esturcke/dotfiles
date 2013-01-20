@@ -20,7 +20,7 @@ main();
 
 sub main
 {
-    print Dumper( getConfig() );
+    copyProjectDir();
     runInstall( getConfig() );
 }
 
@@ -34,10 +34,9 @@ sub getConfig
     my $BASEDIR = dirname(__FILE__);
 
     my $ret_struct = {
-        "rules"   => [
+        "rules" => [
 
             # get zprezto into place
-            { action => 'copy',    file => "$BASEDIR",                         target => "$HOME/.dotfiles" },
             { action => 'symlink', file => "$HOME/.dotfiles/prezto",           target => "$HOME/.zprezto" },
             { action => 'symlink', file => "$HOME/.zprezto/runcoms/zshrc",     target => "$HOME/.zshrc" },
             { action => 'symlink', file => "$HOME/.zprezto/runcoms/zlogin",    target => "$HOME/.zlogin" },
@@ -51,6 +50,24 @@ sub getConfig
     return $ret_struct;
 }
 
+#
+# This routine handles ensuring that the main project directory is copied to
+# $HOME/.dotfiles  Makes sure we're already in that directory first.
+#
+sub copyProjectDir
+{
+    my $HOME    = $ENV{HOME};
+    my $BASEDIR = dirname(__FILE__);
+    my $dotdir  = $ENV{HOME} . "/.dotfiles";
+
+    # If the directory already exists, we don't need to do anything
+    return unless ( !-d $dotdir );
+
+    # Use the runinstall function to do the copy and setup
+    runInstall( { rules => [ { action => 'copy', file => "$BASEDIR", target => "$HOME/.dotfiles" } ] } );
+
+}
+
 # Runs through the ruleset
 sub runInstall
 {
@@ -58,7 +75,6 @@ sub runInstall
 
     foreach my $rule ( @{ $config->{rules} } )
     {
-
         # If the target exists and is a plain file
         if ( -l $rule->{target} or -f $rule->{target} )
         {
