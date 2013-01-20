@@ -66,6 +66,7 @@ sub copyProjectDir
     # Use the runinstall function to do the copy and setup
     runInstall( { rules => [ { action => 'copy', file => "$BASEDIR", target => "$HOME/.dotfiles" } ] } );
 
+    system("cd $dotdir;git submodule update --init --recursive");
 }
 
 # Runs through the ruleset
