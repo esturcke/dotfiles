@@ -2,7 +2,7 @@ My dotfiles project.
 Seems to be the hot thing to do these days.  Perl based.  Trying to limit only module dependency to YAML, we'll see though.
 Download the package, run the install script.
 
-Maybe interesting, may be useless.  Who knows.
+May be interesting, may be useless.  Who knows.
 
 **Warning:** This wil currently blow away any file that is in the way.  (currently zsh  dot-files and a .zprezto directory)
 
