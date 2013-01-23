@@ -15,6 +15,7 @@ use Data::Dumper;
 use File::Basename;
 use feature "switch";
 use File::Path qw(remove_tree);
+use YAML::Any;
 
 main();
 
@@ -33,21 +34,15 @@ sub getConfig
     my $HOME    = $ENV{HOME};
     my $BASEDIR = dirname(__FILE__);
 
-    my $ret_struct = {
-        "rules" => [
+    my $conf_file = loadConf();
 
-            # get zprezto into place
-            { action => 'symlink', file => "$HOME/.dotfiles/prezto",           target => "$HOME/.zprezto" },
-            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zshrc",     target => "$HOME/.zshrc" },
-            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zlogin",    target => "$HOME/.zlogin" },
-            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zpreztorc", target => "$HOME/.zpreztorc" },
-            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zprofile",  target => "$HOME/.zprofile" },
-            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zshenv",    target => "$HOME/.zshenv" },
-            { action => 'symlink', file => "$HOME/.zprezto/runcoms/zlogout",   target => "$HOME/.zlogout" },
-        ]
-    };
+    # Add directories
+    $conf_file =~ s/__HOME__/$HOME/g;
+    $conf_file =~ s/__BASEDIR__/$BASEDIR/g;
 
-    return $ret_struct;
+    my $ret_struct = Load($conf_file);
+
+    return eval{$ret_struct;}
 }
 
 #
@@ -97,4 +92,22 @@ sub runInstall
             when ("symlink") { system "ln -s " . $rule->{file} . " " . $rule->{target} . "\n" }
         }
     }
+}
+
+#
+# Loads the config file, slurps it into a variable, returns it.
+#
+sub loadConf
+{
+    my $fh;
+    my $ret_string;
+    my $BASEDIR=dirname(__FILE__);
+
+    open($fh, "<", "$BASEDIR/dotfiles.conf") || die "Couldn't open $BASEDIR/dotfiles.conf:$!";
+    while(<$fh>)
+    {
+        $ret_string .= $_;
+    }
+
+    return $ret_string;
 }
