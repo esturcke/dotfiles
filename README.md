@@ -1,18 +1,32 @@
 My dotfiles project.  
-Seems to be the hot thing to do these days.  Perl based.  Trying to limit only module dependency to YAML, we'll see though.
-Download the package, run the install script.
+Seems to be the hot thing to do these days.  Perl based.  May be interesting, may be useless.  Who knows.<br>
+**Warning:** This will currently blow away any file that is in the way.  (currently zsh  dot-files and a .zprezto directory)
 
-May be interesting, may be useless.  Who knows.
+Required Perl Modules:
+ - YAML::Any  (used for config file parsing)
 
-**Warning:** This wil currently blow away any file that is in the way.  (currently zsh  dot-files and a .zprezto directory)
+HOWTO
+-----
+ - *assumes you're already using zsh*
+ - Clone this project
+ - Backup your important dotfiles (issue #3 tracks this)
+ - Run the provided install script
+ - Logout/login
 
+
+Submodules
+----------
+I recommend changing the submodules to point to your own forks of ohmyzsh or prezto (or your own zsh scripts etc) modify the
+dotfiles.conf as needed
+ - [my fork of prezto](https://github.com/skarfacegc/prezto).  sorin's execellent zsh environment. https://github.com/sorin-ionescu/prezto
+ 
+
+
+Roadmap
+-------
 See [issues](https://github.com/skarfacegc/dotfiles/issues) and [milestones](https://github.com/skarfacegc/dotfiles/issues/milestones) for current worklist  
 (going to track everything with ~~bugs~~ I mean _issues_)
 
-Current External Modules
- - [my fork of prezto](https://github.com/skarfacegc/prezto).  sorin's execellent zsh environment. https://github.com/sorin-ionescu/prezto
 
 
-
-Feel free to fork it!
-Submit pull requests, make things more awesome.
+Fork this, modify to fit your needs, submit a pull request for anything others might find useful
