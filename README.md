@@ -5,11 +5,14 @@ Seems to be the hot thing to do these days.  Perl based.  May be interesting, ma
 Required Perl Modules:
  - YAML::Any  (used for config file parsing)
 
-HOWTO
+HOWTO/Usage/Notes
 -----
  - *assumes you're already using zsh*
  - Clone this project
  - Backup your important dotfiles (issue #3 tracks this)
+ - Verify the configuration
+     - The source directory is typically __HOME__/.dotfiles  it is where this repo gets copied during install.
+     - The target is deleted prior to the action taking place (symlink or copy) **no backups are made**
  - Run the provided install script
  - Logout/login
 
