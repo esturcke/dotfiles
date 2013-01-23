@@ -1,0 +1,45 @@
+config defaultToCurrentScreen true
+# Shows app icons and background apps, spreads icons in the same place.
+config windowHintsShowIcons true
+config windowHintsIconAlpha 0.5
+config windowHintsIgnoreHiddenWindows false
+config windowHintsSpread true
+config secondsBetweenRepeat 0.1
+
+
+# Development layout
+layout devLayout BEFORE shell '~/bin/startDev.sh'
+layout devLayout 'iTerm' move screenOriginX+5;screenOriginY+5 screenSizeX*.35;screenSizeY-20 0
+layout devLayout 'Sublime Text 2' move screenSizeX*.35+10;screenOriginY+5 screenSizeX-screenSizeX*.35-20;screenSizeY-20 0
+layout devLayout 'SourceTree' move screenOriginX+5;screenOriginY+5 screenSizeX*.55;728 1
+
+
+#
+# bindings:
+# a - Startup dev environment
+# e - show window selectors
+# g - show resize grid
+# left - Move window to the left screen
+# right - Move window to the right screen
+# j - cycle focus left
+# k - cycle focus right
+# b - focus Chrome
+# s - focus sublimetext
+# i - focus iterm
+#
+
+
+bind a:cmd,ctrl layout devLayout
+
+bind e:cmd,ctrl hint ASDFGHJKLQWERTYUIOPCVBN
+bind g:cmd,ctrl grid padding:5 0:16,10 1:16,9
+
+bind left:cmd,ctrl sequence throw 0 > move screenOriginX+screenSizeX/2-windowSizeX/2;screenOriginY+screenSizeY/2-windowSizeY/2 windowSizeX;windowSizeY 
+bind right:cmd,ctrl sequence throw 1 > move screenOriginX+screenSizeX/2-windowSizeX/2;screenOriginY+screenSizeY/2-windowSizeY/2 windowSizeX;windowSizeY 
+
+bind j:cmd,ctrl focus left
+bind k:cmd,ctrl focus right
+
+bind b:cmd,ctrl focus 'Google Chrome'
+bind s:cmd,ctrl focus 'Sublime Text 2'
+bind i:cmd,ctrl focus 'iTerm'
