@@ -14,6 +14,7 @@ HOWTO/Usage/Notes
      - The source directory is typically __HOME__/.dotfiles  it is where this repo gets copied during install.
      - The target is deleted prior to the action taking place (symlink or copy) **no backups are made**
  - Run the provided install script
+ - Change name/email in gitconfig (if you use git)
  - Logout/login
 
 
